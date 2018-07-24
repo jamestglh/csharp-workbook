@@ -40,7 +40,7 @@ namespace RockPaperScissors
 
             void ComTurn(){
                 Random rnd = new Random();
-                int roll = rnd.Next(0, 2);  
+                int roll = rnd.Next(0, 3);  
                 comHand = rps[roll];
                 Console.WriteLine("The Computer Mastermind chose " + comHand + ".");
                 System.Threading.Thread.Sleep(500);
