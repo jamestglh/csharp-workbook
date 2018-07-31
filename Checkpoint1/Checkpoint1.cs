@@ -70,8 +70,7 @@ namespace Checkpoint1
                     }
                 }
                 Console.WriteLine("Counting done. There are " + divisibleCount + "numbers between 1 and 100 that are divisble by 3.");
-
-                
+                MainMenu();
             }
             
 
@@ -119,7 +118,6 @@ namespace Checkpoint1
                             factorial = factorial * i;
                     }
                     Console.WriteLine("The factorial of " + userNumber + " is " + factorial);
-                    Console.ReadLine();
                     MainMenu();
                 }
                     else 
@@ -171,7 +169,7 @@ namespace Checkpoint1
                             Problem4();
                         }
                     }
-                    Console.WriteLine("You ran out of guesses! You lose! The computer mastermind's number was " + compChoice);
+                    Console.WriteLine("You ran out of guesses! You lose! The computer mastermind's number was " + compChoice + "! You have perished.");
                     MainMenu();
                 }
    
