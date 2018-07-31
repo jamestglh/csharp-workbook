@@ -106,20 +106,19 @@ namespace Checkpoint1
 
             // 3- Write a program and ask the user to enter a number. Compute the factorial of the number and print it on the console. For example, if the user enters 5, the program should calculate 5 x 4 x 3 x 2 x 1 and display it as 5! = 120.
             void Problem3(){
-                int userNumber = 0;
-                int i = 0;
+                long userNumber = 0;
+                long i = 0;
                 
                 Console.WriteLine("Enter a number: ");
                 // userNumber = int.Parse(Console.ReadLine());    
-                if (Int32.TryParse((Console.ReadLine()), out userNumber))
+                if (long.TryParse((Console.ReadLine()), out userNumber))
                 {
-                    int factorial = userNumber;
+                    long factorial = userNumber;
                     for (i = userNumber - 1; i >= 1; i--)
                     {
                             factorial = factorial * i;
                     }
                     Console.WriteLine("The factorial of " + userNumber + " is " + factorial);
-                    Console.ReadLine();
                     MainMenu();
                 }
                     else 
