@@ -31,19 +31,14 @@ namespace FizzBuzz
                     }
                     else {
                         Console.WriteLine(i);
-
                     }
-
                 }
             }
-
-            
             void RequestSustenance()
             {
                 Console.WriteLine("FEED ME AN INTEGER. I SUFFER FROM ANCIENT HUNGER.");
                 number = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("YES, GOOD, YOUR NUMBER IS " + number);
             }
-             
     }
 }}
