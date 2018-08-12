@@ -10,18 +10,15 @@ namespace Rainforest
             Console.WriteLine("Let's build a bootleg Amazon!");
 
             Company rainforest = new Company("Rainforest");
-
             Warehouse sanAntonio = new Warehouse("San Antonio", 10);
             Warehouse austin = new Warehouse("Austin", 10);
             Warehouse houston = new Warehouse("Houston", 10);
             Warehouse shitCity = new Warehouse("Shit City", 10);
-
             Container sanAntonio_1 = new Container("SanAntonio-1", 6);
             Container sanAntonio_2 = new Container("SanAntonio-2", 6);
             Container austin_1 = new Container("Austin-1", 6);
             Container houston_1 = new Container("Houston-1", 6);
             Container shitCity_1 = new Container("ShitCity-1", 6);
-
             Item bananas = new Item("Bananas", 1.99m);
             Item cockfightingDVDs = new Item("Cockfighting DVDs", 19.99m);
             Item bootlegAdidas = new Item("Bootleg Adidas", 14.99m);
@@ -66,48 +63,35 @@ namespace Rainforest
                     }
                 }
             }
-
             //printing out contents of index
-
             foreach (var item in index)
             {
                 Console.WriteLine(item);
             }
-
-
-
         }
-
         public class Company {
             public String name {get;set;}
             public List<Warehouse> warehouses;
-
             public Company(String name){
                 warehouses = new List<Warehouse>();
             }
-
             public void BuildWarehouse(Warehouse newWarehouse){
-                this.warehouses.Add(newWarehouse); // this adds warehouse to the warehoses list
+                this.warehouses.Add(newWarehouse); // this adds warehouse to the warehouses list
             }
         }
-
         public class Warehouse {
             public String location {get;set;}
             public int size {get;set;}
             public List<Container> containers;
-
             //constructor for Warehouse
             public Warehouse(string location, int size){
                 this.location = location;
                 this.size = size;
                 containers = new List<Container>();
             }
-
             public void BuildContainer(Container newContainer){
                 this.containers.Add(newContainer); // adds container to the containers list
             }
-            
-
         }
 
         public class Container{
@@ -119,13 +103,10 @@ namespace Rainforest
                 this.size = size;
                 items = new List<Item>();
             }
-
             public void AddItems(Item newItem){
                 this.items.Add(newItem);
             }
-
         }
-
         public class Item {
             public String name {get;set;}
             public decimal price {get;set;}
