@@ -51,11 +51,16 @@ namespace starwars
             {
                 milleniumFalcon.EnterShip(chewie);
                 Console.WriteLine("Chewie has entered the ship");
-                // milleniumFalcon.passengers.firstName.ForEach(Console.WriteLine);            
+                            
             }
             catch(Exception)
             {
                 Console.WriteLine("Chewie couldn't fit. You racist against Wookiees or something?");
+                // lists passengers of millenium falcon
+                foreach (Person p in milleniumFalcon.passengers)
+                {
+                    Console.WriteLine(p.firstName);
+                }
                 
             } 
 
@@ -89,6 +94,8 @@ namespace starwars
                 Console.WriteLine("The ship couldn't embark.");
             } 
 
+
+            
 
         }
 
