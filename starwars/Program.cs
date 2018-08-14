@@ -19,6 +19,9 @@ namespace starwars
             Station rebelBase = new Station("Rebel Base", "Rebel");
             Station deathStar = new Station("Death Star", "Imperial");
 
+            // Dictionary<string, string> roster = new Dictionary<string, string>();
+            List<string> roster = new List<string>();
+
             //putting haters in ships
             try
             {
@@ -57,10 +60,10 @@ namespace starwars
             {
                 Console.WriteLine("Chewie couldn't fit. You racist against Wookiees or something?");
                 // lists passengers of millenium falcon
-                foreach (Person p in milleniumFalcon.passengers)
-                {
-                    Console.WriteLine(p.firstName);
-                }
+                // foreach (Person p in milleniumFalcon.passengers)
+                // {
+                //     Console.WriteLine(p.firstName);
+                // }
                 
             } 
 
@@ -77,13 +80,15 @@ namespace starwars
 
             try
             {
-                deathStar.DockAtStation(starDestroyer);
+                rebelBase.DockAtStation(starDestroyer);
                 Console.WriteLine("Ship docking at the Death Star");            
             }
             catch(Exception)
             {
                 Console.WriteLine("The ship couldn't dock.");
             } 
+
+            MakeRoster();
             try
             {
                 rebelBase.EmbarkOnVoyage(milleniumFalcon);
@@ -94,11 +99,55 @@ namespace starwars
                 Console.WriteLine("The ship couldn't embark.");
             } 
 
-
+             void MakeRoster(){
+                foreach (Ship s in rebelBase.dockedShips)
+                    {
+                        foreach (Person p in s.passengers)
+                        {
+                            roster.Add(p.firstName); //this line adds the people to the roster
+                        }
+                    }
+                    //printing out contents of roster
+                foreach (var item in roster)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            
             
 
         }
 
+
+
+
+        public class Station
+        {
+            public string stationName {get;set;}
+            public string stationAlliance {get;set;}
+            public List<Ship> dockedShips; 
+        
+            //constructor for Station
+            public Station(string stationName, string stationAlliance)
+            {
+                this.stationName = stationName;
+                this.stationAlliance = stationAlliance;
+                dockedShips = new List<Ship>();
+
+            }
+
+            public void DockAtStation(Ship shipToDock)
+            {
+                this.dockedShips.Add(shipToDock);  
+            }
+            public void EmbarkOnVoyage(Ship shipToEmbark){
+            bool reallyRemoved = this.dockedShips.Remove(shipToEmbark);
+            if(!reallyRemoved)
+                {
+                    throw new Exception("The ship could not be found at the station");
+                }
+            }
+        }
         public class Ship
         {
             //attributes of the ship class
@@ -158,32 +207,6 @@ namespace starwars
         }
 
 
-        public class Station
-        {
-            public string stationName {get;set;}
-            public string stationAlliance {get;set;}
-            public List<Ship> dockedShips; 
         
-            //constructor for Station
-            public Station(string stationName, string stationAlliance)
-            {
-                this.stationName = stationName;
-                this.stationAlliance = stationAlliance;
-                dockedShips = new List<Ship>();
-
-            }
-
-            public void DockAtStation(Ship shipToDock)
-            {
-                this.dockedShips.Add(shipToDock);  
-            }
-            public void EmbarkOnVoyage(Ship shipToEmbark){
-            bool reallyRemoved = this.dockedShips.Remove(shipToEmbark);
-            if(!reallyRemoved)
-            {
-                throw new Exception("The ship could not be found at the station");
-            }
-        }
-        }
     }
 }
