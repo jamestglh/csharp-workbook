@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+
 
 namespace Mastermind {
     class Program {
         static void Main (string[] args) {
-            Game game = new Game (new string[] { "a", "b", "c", "d" });
+ 	        
+            string[] randomLetters = new string[] {"a", "b", "c", "d", "e", "f"};
+            Random rando = new Random();
+            Game game = new Game (new string[] { randomLetters[rando.Next(0,6)], randomLetters[rando.Next(0,6)], randomLetters[rando.Next(0,6)], randomLetters[rando.Next(0,6)] });
             for (int turns = 10; turns > 0; turns--) {
                 Console.WriteLine($"You have {turns} tries left");
                 Console.WriteLine ("Choose four letters: ");
                 string letters = Console.ReadLine ();
+                string[] lettersArray = letters.Split("");
                 Ball[] balls = new Ball[4];
                 for (int i = 0; i < 4; i++) {
                     balls[i] = new Ball (letters[i].ToString());
@@ -16,6 +22,8 @@ namespace Mastermind {
                 Row row = new Row (balls);
                 game.AddRow (row);
                 Console.WriteLine (game.Rows);
+                
+                
             }
             Console.WriteLine ("Out Of Turns");
         }
@@ -29,7 +37,7 @@ namespace Mastermind {
             this.answer = answer;
         }
 
-        private string Score (Row row) {
+        public string Score (Row row) {
             string[] answerClone = (string[]) this.answer.Clone ();
             // red is correct letter and correct position
             // white is correct letters minus red
@@ -50,7 +58,15 @@ namespace Mastermind {
                     answerClone[foundIndex] = null;
                 }
             }
+            if (white - red == 0)
+            {
+                Console.WriteLine("You've won!");
+                // System.Environment.Exit(1);
+            }
+
+
             return $" {red} - {white - red}";
+            
         }
 
         public void AddRow (Row row) {
@@ -60,10 +76,10 @@ namespace Mastermind {
         public string Rows {
             get {
                 foreach (var row in this.rows) {
-                    Console.Write (row.Balls);
+                    Console.WriteLine (row.Balls);
                     Console.WriteLine (Score (row));
                 }
-                
+            return null;    
             }
         }
     }
