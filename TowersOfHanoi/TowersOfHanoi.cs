@@ -11,7 +11,8 @@ namespace TowersOfHanoi
         {
             Console.WriteLine("Towers of Hanoi");
             Game myGame = new Game();
-
+            //add myGame.run()
+            //playagain
             
         }
 
@@ -19,7 +20,7 @@ namespace TowersOfHanoi
 
 
     public class Game{
-        Dictionary<string, dynamic> towers = new Dictionary<string, dynamic>();
+        Dictionary<string, Tower> towers = new Dictionary<string, Tower>();
 
         public Game(){
              
@@ -36,7 +37,7 @@ namespace TowersOfHanoi
             towers["A"].blockStack.Push(block3);
             towers["A"].blockStack.Push(block2);
             towers["A"].blockStack.Push(block1);
-
+            //this is where constructor should end
             bool hasWon = false;
             string location = "";
             string destination = "";
@@ -50,34 +51,32 @@ namespace TowersOfHanoi
             }
 
             void PrintBoard(){
-                // foreach (var tower in towers)
-                // {
-                //     Console.Write(tower.Key + ": ");
+                foreach (string name in towers.Keys)
+                {
+                    Console.Write(name + ": ");
+                    Tower tower = towers[name]; 
+                    Stack<Block> stackOfBlocks = tower.blockStack;
                     
-                //     foreach (Block block in towers["A"].blockStack)
+                     //FINISH THIS
+                }
+                // Console.Write("A: ");
+                // foreach (Block block in towers["A"].blockStack)
                 //     {
                 //        Console.Write(block.weight);
                 //     }
                 //     Console.WriteLine();
-                // }
-                Console.Write("A: ");
-                foreach (Block block in towers["A"].blockStack)
-                    {
-                       Console.Write(block.weight);
-                    }
-                    Console.WriteLine();
-                Console.Write("B: ");
-                foreach (Block block in towers["B"].blockStack)
-                    {
-                       Console.Write(block.weight);
-                    }
-                    Console.WriteLine();
-                Console.Write("C: ");
-                foreach (Block block in towers["C"].blockStack)
-                    {
-                       Console.Write(block.weight);
-                    }
-                    Console.WriteLine();
+                // Console.Write("B: ");
+                // foreach (Block block in towers["B"].blockStack)
+                //     {
+                //        Console.Write(block.weight);
+                //     }
+                //     Console.WriteLine();
+                // Console.Write("C: ");
+                // foreach (Block block in towers["C"].blockStack)
+                //     {
+                //        Console.Write(block.weight);
+                //     }
+                //     Console.WriteLine();
             }
 
             void CheckForWin(){
@@ -88,6 +87,8 @@ namespace TowersOfHanoi
             }
 
             void PlayerMove(){
+
+                // this gets player input
                 // string[] acceptableLetters = new string[] {"a", "A", "b", "B", "c", "C"};
                 Console.WriteLine("What stack would you like to move the block from?");
                 string userInput = Console.ReadLine();
@@ -99,10 +100,10 @@ namespace TowersOfHanoi
                     else
                     {
                         Console.WriteLine("Sorry, your input is invalid.");
-                        userInput = "";
-                        location = "";
-                        destination = "";
-                        PlayerMove();
+                        userInput = null;
+                        location = null;
+                        destination = null;
+                        return;
                     }
                 
                 Console.WriteLine("What stack would you like to move the block to?");
@@ -116,15 +117,15 @@ namespace TowersOfHanoi
                     else
                     {
                         Console.WriteLine("Sorry, your input is invalid.");
-                        userInput = "";
-                        location = "";
-                        destination = "";
-                        PlayerMove();
+                        userInput = null;
+                        location = null;
+                        destination = null;
+                        return;
                     }
 
 
 
-
+                //this moves the pieces
                 var pieceToMove = towers[location].blockStack.Peek();
                 if (towers[destination].blockStack.Count == 0) 
                 {
@@ -151,11 +152,11 @@ namespace TowersOfHanoi
         }
     }
     public class Tower{
-        public Stack blockStack {get;set;}
+        public Stack<Block> blockStack {get;set;}
 
         public Tower(){
 
-                this.blockStack = new Stack();
+                this.blockStack = new Stack<Block>();
             }
 
     }
