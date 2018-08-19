@@ -12,16 +12,20 @@ namespace CarInheritance
 
         static void Main(string[] args)
         {
-            Truck aTruck = new Truck(1,4,"white",4,4,true,6);
+            Van aVan = new Van(true,true,"white",4,4,true,6);
             Truck gravedigga = new Truck(1,4,"green and black like a can of Monster",4,4,true,6);
             Motorcycle aMotorcycle = new Motorcycle(true, true, "red", 3, 2, true, 4);
 
 
             Console.WriteLine("Inheritance practice!");
 
-            Console.WriteLine("aTruck's color is " + aTruck.color);
+            Console.WriteLine("aTruck's color is " + aVan.color);
             Console.WriteLine("aMotorcycle's color is " + aMotorcycle.color);
             Console.WriteLine("Gravedigga's color is " + gravedigga.color);
+
+            Console.WriteLine("aVan honks like " + aVan.honk());
+            Console.WriteLine("Gravedigga honks like " + gravedigga.honk());
+            Console.WriteLine("aMotorcycle honks like " + aMotorcycle.honk());
         }
     }
 
@@ -31,6 +35,9 @@ namespace CarInheritance
         public int numPassengers {get;set;}
         public bool gasPowered {get;set;}
         public int engineSize {get;set;}
+        public virtual String honk(){
+            return "honk honk";
+        }
         
 
         public Vehicle(string color, int numWheels, int numPassengers, bool gasPowered, int engineSize){
@@ -46,16 +53,24 @@ namespace CarInheritance
         public int cabSize {get;set;}
         public int towingCapacity {get;set;}
 
+        public override String honk(){
+            return "B I G G H O N C C";
+        }
+
         public Truck(int cabSize, int towingCapacity, string color, int numWheels,  int numPassengers, bool gasPowered, int engineSize) : base(color, numWheels, numPassengers, gasPowered, engineSize){
             this.numWheels = numWheels;
             this.cabSize = cabSize;
             this.towingCapacity = towingCapacity;
+            
         }
     }
 
     public class Motorcycle : Vehicle {
         public bool isCruiser {get;set;}
         public bool hasSidecar {get;set;}
+        public override String honk(){
+            return "beep beep";
+        }
         public Motorcycle(bool isCruiser, bool hasSidecar, string color, int numWheels, int numPassengers, bool gasPowered, int engineSize) : base(color, numWheels, numPassengers, gasPowered, engineSize){
             this.isCruiser = isCruiser;
             this.hasSidecar = hasSidecar;
