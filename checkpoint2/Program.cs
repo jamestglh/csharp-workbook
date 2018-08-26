@@ -39,7 +39,7 @@ namespace checkpoint2
 
         public void DrawBoard()
         {
-            Console.WriteLine("  0 1 2 3 4 5 6 7 "); //what i need to do is probably do a console writeline for each row of the grid 2d array with probably 2 for loops, ie, for each row, then for each item in each row
+            Console.WriteLine("  0 1 2 3 4 5 6 7 ");  
             for (int i = 0; i < grid.GetLength(0); i++)
             {
                 Console.Write(i + ": ");
