@@ -46,6 +46,20 @@ namespace practice2
             return dailyRate * daysToRent;
         }
     }
+    public class SegaGame : Rentable{
+
+        public string gameName {get;private set;}
+        public double dailyRate {get;set;}
+
+        public SegaGame(string gameName, double rate){
+            this.dailyRate = rate;
+            this.gameName = gameName;
+        }
+        public double CalculateRent(double daysToRent){
+            return dailyRate * daysToRent;
+        }
+    }
+
 
     class Program
     {
@@ -58,6 +72,9 @@ namespace practice2
             HotelRoom suite = new HotelRoom("123", 149);
             HotelRoom standard1 = new HotelRoom("456", 100);
             HotelRoom standard2 = new HotelRoom("789", 59);
+            SegaGame musha = new SegaGame("M.U.S.H.A.", 3.99);
+            SegaGame shinobiIII = new SegaGame("Shinobi III", 3.99);
+            SegaGame sunsetRiders = new SegaGame("Sunset Riders", 3.99);
 
 
             Console.WriteLine("For car {0} the 1 day amount due is {1}", mercedes.licenseNo, mercedes.CalculateRent(1));
@@ -71,6 +88,9 @@ namespace practice2
             rentableThings.Add(suite);
             rentableThings.Add(standard1);
             rentableThings.Add(standard2);
+            rentableThings.Add(musha);
+            rentableThings.Add(shinobiIII);
+            rentableThings.Add(sunsetRiders);
 
             foreach (Rentable thing in rentableThings)
             {
