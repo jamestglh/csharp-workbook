@@ -147,12 +147,17 @@ namespace checkpoint2
                 return;
             }
             //blacks can only move y-1 and either x-1 or x+1
-            if (Math.Abs(fromY - toY) > 1 || Math.Abs(fromX - toX) > 1)
+            if (Math.Abs(fromY - toY) > 1 || Math.Abs(fromX - toX) > 1) //only allows user to choose 1 spot away
             {
                 Console.WriteLine("Your destination is illegal. You can only move diagonally 1 space. If you want to jump an enemy checker, choose it's location.");
                 return;
             }
             //whites can only move y+1 and either x-1 or x+1
+            if ((grid[toX,toY] != null) && (checkerToMove.color == SelectChecker(toX,toY).color))
+            {
+                //remove checker you just jumped on
+                //double the move for checkerToMove
+            }
 
             // if opposite colored checker is in location where you want to jump, double the move (if its x+1 and y+1 do x+2 and y+2) 
             //also let the same player go again if they take out a checker, so they can chain jumps, but they cant change checkers (not sure how to do this yet)
