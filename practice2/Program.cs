@@ -6,7 +6,7 @@ namespace practice2
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 
             string file = @"C:\Users\t-g-l\csharp-workbook\practice2\words.txt";
@@ -19,19 +19,40 @@ namespace practice2
             int numGuesses = 0;
 
 
-            GenerateWordToGuess();
-            Console.WriteLine(wordToGuess);   // uncomment this line if you want the answer
-            // Console.WriteLine(wordToGuessInt);
 
-            while (!guessedRight)
-            {
-                GetUserGuess();
-                numGuesses++;
-                GetUserGuessInt();
-                CheckForWin();
-                BeforeOrAfter();
+
+            PlayGame();
+
+            void PlayGame(){
+                GenerateWordToGuess();
+                while (!guessedRight)
+                {
+                                
+                    // Console.WriteLine(wordToGuess + " " + wordToGuessInt);   // uncomment this line if you want the answer
+                    GetUserGuess();
+                    numGuesses++;
+                    GetUserGuessInt();
+                    CheckForWin();
+                    BeforeOrAfter();
+
+                }
             }
 
+            void PlayAgain(){
+                System.Console.WriteLine("Do you want to play again? (Y/N)");
+                string input = Console.ReadLine();
+
+                if (input.ToUpper() == "Y")
+                {
+                    guessedRight = false;
+                    PlayGame();
+
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
 
 
             void GenerateWordToGuess()
@@ -57,12 +78,13 @@ namespace practice2
                         // System.Console.WriteLine("Found it at line {0}!", counter);
                         userGuessInt = counter;
                         // System.Console.WriteLine(userGuessInt + " is the userGuessInt for " + userGuess);
-                        break;
                     }
                     else
                     {
                         counter++;
+                        
                     }
+                    
                 }
             }
 
@@ -70,23 +92,34 @@ namespace practice2
             {
                 if (userGuess == wordToGuess)
                 {
-                    System.Console.WriteLine("You won!");
+                    System.Console.WriteLine("You won! It only took you {0} tries!", numGuesses);
                     guessedRight = true;
+                    numGuesses = 0;
+                    userGuessInt = 0;
+                    wordToGuessInt = 0;
+                    userGuess = null;
+                    PlayAgain();
                 }
             }
 
             void BeforeOrAfter()
             {
-                int difference = userGuessInt - wordToGuessInt;
-                if (difference > 0)
+                if ((userGuessInt < 1) || (userGuessInt > 58110))
                 {
+                    // System.Console.WriteLine("userGuessInt is "+userGuessInt +" and wordToGuess int is " +wordToGuessInt);
+                    System.Console.WriteLine("Your guess isn't in my dictionary, so I can't tell you if it's before or after my secret word.");
+                }
+                else if (userGuessInt > wordToGuessInt)
+                {
+                    // System.Console.WriteLine("userGuessInt is "+userGuessInt +" and wordToGuess int is " +wordToGuessInt);
                     System.Console.WriteLine("You guessed wrong. Your guess is after my guess");
                 }
-                else
+                else if (userGuessInt < wordToGuessInt)
                 {
+                    // System.Console.WriteLine("userGuessInt is "+userGuessInt +" and wordToGuess int is " +wordToGuessInt);
                     System.Console.WriteLine("You guessed wrong. Your guess is before my guess");
                 }
-            }
+                
         }
     }
-}
+}}
