@@ -18,9 +18,9 @@ namespace practice2
             string wordToGuess = "";
             int numGuesses = 0;
 
-            
+
             GenerateWordToGuess();
-            // Console.WriteLine(wordToGuess);   // uncomment this line if you want the answer
+            Console.WriteLine(wordToGuess);   // uncomment this line if you want the answer
             // Console.WriteLine(wordToGuessInt);
 
             while (!guessedRight)
@@ -34,22 +34,25 @@ namespace practice2
 
 
 
-            void GenerateWordToGuess(){
+            void GenerateWordToGuess()
+            {
                 Random rnd = new Random();
                 wordToGuessInt = rnd.Next(0, lineCount);
                 wordToGuess = File.ReadLines(file).Skip(wordToGuessInt).Take(1).First();
             }
 
-            void GetUserGuess(){
+            void GetUserGuess()
+            {
                 Console.WriteLine("I have a word in my mind. It might be a bad word. Guess it. You have guessed {0} times so far", numGuesses);
                 userGuess = Console.ReadLine();
             }
 
-            void GetUserGuessInt(){
+            void GetUserGuessInt()
+            {
                 int counter = 1;
-                foreach (string  line in System.IO.File.ReadLines(file))
+                foreach (string line in System.IO.File.ReadLines(file))
                 {
-                    if(line == userGuess)
+                    if (line == userGuess)
                     {
                         // System.Console.WriteLine("Found it at line {0}!", counter);
                         userGuessInt = counter;
@@ -63,14 +66,17 @@ namespace practice2
                 }
             }
 
-            void CheckForWin(){
-                if (userGuess == wordToGuess){
+            void CheckForWin()
+            {
+                if (userGuess == wordToGuess)
+                {
                     System.Console.WriteLine("You won!");
                     guessedRight = true;
                 }
             }
 
-            void BeforeOrAfter(){
+            void BeforeOrAfter()
+            {
                 int difference = userGuessInt - wordToGuessInt;
                 if (difference > 0)
                 {
