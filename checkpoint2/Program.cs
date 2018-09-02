@@ -45,7 +45,6 @@ namespace checkpoint2
         {
             this.checkers = new List<Checker>();
         }
-        //this is where we will need to build some methods to CreateBoard(board constructor), DrawBoard, GenerateBoard, SelectChecker, CheckValidMove(checkerposition[],tox,toy)RETURNBOOL, MoveChecker, RemoveChecker, and CheckForWin(take in color, did white win true false)
         public void DrawBoard()
         {
             
