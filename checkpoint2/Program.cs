@@ -11,7 +11,6 @@ namespace checkpoint2
             Console.WriteLine("Checkerspoint 2. WHITE = X BLACK = O. WHITE GOES FIRST!");
             Game myGame = new Game();
             myGame.Start();
-            
         }
     }
     public class Game
@@ -20,8 +19,6 @@ namespace checkpoint2
         public void Start()
         {
             Board aBoard = new Board();
-            // Console.WriteLine(int.Parse("25CB", System.Globalization.NumberStyles.HexNumber));
-            // Console.WriteLine(int.Parse("25CF", System.Globalization.NumberStyles.HexNumber));
             aBoard.GenerateCheckers();
             while (!aBoard.hasWon)
             {
@@ -46,8 +43,7 @@ namespace checkpoint2
             this.checkers = new List<Checker>();
         }
         public void DrawBoard()
-        {
-            
+        { 
             Console.WriteLine("   0 1 2 3 4 5 6 7 ");  
             for (int i = 0; i < grid.GetLength(0); i++)
             {
@@ -85,12 +81,10 @@ namespace checkpoint2
                     }
                 }
             }
-
             // foreach (Checker c in checkers) //INTIAL CHECKER PLACEMENT CHECK
             // {
             //     Console.WriteLine("Checker at X " + c.xPos + " and Y " + c.yPos); 
             // }
-
         }
         public void PlaceCheckers() //this is what reads the checker coordinates and puts it in the grid in the right place
         {
@@ -102,19 +96,16 @@ namespace checkpoint2
             return;
         }
         public void MoveChecker(){
-
             int[] validInput = new int[] {0,1,2,3,4,5,6,7};
             int fromX = 0;
             int fromY = 0;
             int toX = 0;
             int toY = 0;
             string input = "";
-
             PlayerMove();
-
             void PlayerMove(){
                 GetPlayerInputFrom();
-                // CheckPlayerInputFrom();
+                // CheckPlayerInputFrom(); // i ended up daisy chaining these at the ends of each other to make it work the way i wanted it to
                 // GetPlayerInputTo();
                 // CheckPlayerMove();
                 // SwitchPlayers();
@@ -128,7 +119,6 @@ namespace checkpoint2
                 {
                     CallItADay();
                     return;
-                    
                 }
                 if(!Int32.TryParse(input, out fromX))
                 {
@@ -145,8 +135,6 @@ namespace checkpoint2
                 }
                 CheckPlayerInputFrom();
             }
-
-
             void CheckPlayerInputFrom(){
                 //INPUT CHECKS / FROM
                 Checker checkerToMove = SelectChecker(fromX, fromY);   
@@ -167,7 +155,6 @@ namespace checkpoint2
                 }
                 GetPlayerInputTo();
             }
-
             void GetPlayerInputTo(){
                 //GETTING PLAYER INPUT / TO
                 Console.WriteLine("Enter Placement Row: ");
@@ -186,7 +173,6 @@ namespace checkpoint2
                 }
                 CheckPlayerMove();
             }
-
             void CheckPlayerMove(){
                 //MOVEMENT CHECKS / TO
                 Checker checkerToMove = SelectChecker(fromX, fromY);   
@@ -241,20 +227,16 @@ namespace checkpoint2
                         return;
                     }
                 }
-                //also let the same player go again if they take out a checker, so they can chain jumps, but they cant change checkers (not sure how to do this yet)
                 checkerToMove.position[0] = toX;
                 checkerToMove.position[1] = toY;
                 grid[fromX,fromY] = null;
                 SwitchPlayers();
             }
-            
-
             // foreach (Checker c in checkers) // this is just a console for troubleshooting to ensure that the coordinates of the checkers are really updating
             // {
             //     Console.WriteLine(c.color + " checker at X " + c.xPos + " and Y " + c.yPos); 
             // }
         }
-
         public void CallItADay(){
             System.Console.WriteLine("The current score is WHITE {0}, BLACK {1}", whiteScore, blackScore);
             System.Console.WriteLine("Would you like to move again, or call it a day?");
@@ -288,19 +270,15 @@ namespace checkpoint2
                 System.Console.WriteLine("Your input is invalid, my dude.");
                 CallItADay();
             }
-
         }
-
         public Checker SelectChecker(int row, int column) //selectchecker takes in x,y, returns checker or null, or throws exception
         {
             return checkers.Find(x => x.position.SequenceEqual(new List<int> { row, column }));
         }
-
         public bool CheckForWin()  
         {
             return checkers.All(x => x.color == "white") || !checkers.Exists(x => x.color == "white");
         }
-
         public void WhoWon(){
             foreach (Checker c in checkers)
             {
@@ -314,7 +292,6 @@ namespace checkpoint2
                 }
             }
         }
-
         public void SwitchPlayers()
         {
             if (playerColor == "white")
@@ -330,9 +307,6 @@ namespace checkpoint2
                 playerColor = "white";
             }
         }
-
-
-
     }
     public class Checker
     {
@@ -346,7 +320,6 @@ namespace checkpoint2
 
         public Checker(bool isWhite, int xPos, int yPos)
         {
-
             this.color = color;
             this.symbol = symbol;
             int openCircleId = int.Parse(" 25CE", System.Globalization.NumberStyles.HexNumber);
