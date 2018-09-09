@@ -1,0 +1,6 @@
+
+TO JOIN BOTH TABLES AT AISLE ID
+select * from toys join aisles on toys.aisle_id = aisles.id;
+
+TO RETURN JUST TOY, AISLE, AND STOCK (as per project page)
+select description, quantity, aisles.name from toys join aisles on toys.aisle_id = aisles.id order by aisles.name asc;
