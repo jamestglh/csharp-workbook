@@ -11,66 +11,44 @@ namespace checkpoint3
         public static void Main(string[] args)
         {
             TaskContext taskContext = new TaskContext();
-            taskContext.Database.EnsureCreated();
+            taskContext.Database.EnsureDeleted(); 
+            taskContext.Database.EnsureCreated(); 
+            List<Task> tasks = new List<Task>();
+            int tasksCreated = 0;
             Console.WriteLine("Welcome to your task list.");
             MainMenu();
 
+            
             void MainMenu()
             {
-                System.Console.WriteLine();
                 System.Console.WriteLine("Please choose an option: ");
-                System.Console.WriteLine("1. List ALL tasks");
-                System.Console.WriteLine("2. List UNFINISHED tasks");
-                System.Console.WriteLine("3. List FINISHED tasks");
-                System.Console.WriteLine("4. Add a task");
-                System.Console.WriteLine("5. Modify a task");
-                System.Console.WriteLine("6. Mark task as finished / unfinished");
-                System.Console.WriteLine("7. Delete a task");
-                System.Console.WriteLine("8. Quit");
+                System.Console.WriteLine("1. List tasks");
+                System.Console.WriteLine("2. Add a task");
+                System.Console.WriteLine("3. Modify a task");
+                System.Console.WriteLine("4. Delete a task");
+                System.Console.WriteLine("5. Quit");
                 string userInput = Console.ReadLine();
                 if (userInput == "1")
                 {
-                    Console.Clear();
-                    TaskLister();
+                    TaskLister(); //DONE
                     MainMenu();
                 }
                 else if (userInput == "2")
                 {
-                    Console.Clear();
-                    TaskListerUnfinished();
+                    TaskCreator();   //DONE
                     MainMenu();
                 }
                 else if (userInput == "3")
                 {
-                    Console.Clear();
-                    TaskListerFinished();
+                    TaskModifier(); //DONE 
                     MainMenu();
                 }
                 else if (userInput == "4")
                 {
-                    Console.Clear();
-                    TaskCreator();
+                    TaskDeleter(); //DONE
                     MainMenu();
                 }
                 else if (userInput == "5")
-                {
-                    Console.Clear();
-                    TaskModifier_db();
-                    MainMenu();
-                }
-                else if (userInput == "6")
-                {
-                    Console.Clear();
-                    TaskStatusUpdater();
-                    MainMenu();
-                }
-                else if (userInput == "7")
-                {
-                    Console.Clear();
-                    TaskDeleter();
-                    MainMenu();
-                }
-                else if (userInput == "8")
                 {
                     Environment.Exit(0);
                 }
@@ -82,38 +60,9 @@ namespace checkpoint3
             }
             void TaskLister()
             {
-                string status = "";
-                foreach (Task t in taskContext.tasks_db)
+                foreach (Task t in tasks)
                 {
-                    if (t.isComplete)
-                    {
-                        status = "complete";
-                    }
-                    else
-                    {
-                        status = "incomplete";
-                    }
-                    System.Console.WriteLine("Task " + t.id + ": " + t.description + " is " + status + ". Due on " + t.dueDate.ToString("MM/dd/yyyy") + ". Priority is " + t.priority + ".");
-                }
-            }
-            void TaskListerUnfinished()
-            {
-                foreach (Task t in taskContext.tasks_db)
-                {
-                    if (!t.isComplete)
-                    {
-                        System.Console.WriteLine("Task " + t.id + ": " + t.description + " is unfinshed. Due on " + t.dueDate.ToString("MM/dd/yyyy") + ". Priority is " + t.priority + ".");
-                    }
-                }
-            }
-            void TaskListerFinished()
-            {
-                foreach (Task t in taskContext.tasks_db)
-                {
-                    if (t.isComplete)
-                    {
-                        System.Console.WriteLine("Task " + t.id + ": " + t.description + " is complete. Due on " + t.dueDate.ToString("MM/dd/yyyy") + ". Priority is " + t.priority + ".");
-                    }
+                    System.Console.WriteLine("Task " + t.id + ": " + t.description + ". Due on " + t.dueDate.ToString("MM/dd/yyyy") + ". Priority is " + t.priority + ".");
                 }
             }
             void TaskCreator()
@@ -126,11 +75,12 @@ namespace checkpoint3
                 ParseDateTimeInput();
                 void ParseDateTimeInput()
                 {
-                    System.Console.WriteLine("Please enter a due date. Enter using the format \"Month Day, Year\" or \"MM/DD/YYYY\" (example: January 1, 1979). ");
+                    System.Console.WriteLine("Please enter a due date. Enter using the format \"Month Day, Year\" (example: January 1, 1979). ");
                     string dueDateInput = Console.ReadLine();
                     try
                     {
                         dueDate = DateTime.Parse(dueDateInput);
+                        Console.WriteLine(dueDate.ToString("MM/dd/yyyy"));
                         AddTaskToList();
                     }
                     catch (FormatException)
@@ -141,9 +91,11 @@ namespace checkpoint3
                 }
                 void AddTaskToList()
                 {
-                    int id = taskContext.tasks_db.Max(t => t.id) + 1;
+                    tasksCreated++;
+                    int id = tasksCreated;
+                    System.Console.WriteLine("id for this task is " + id);
+                    tasks.Add(new Task(id, false, description, priority, dueDate));
                     taskContext.tasks_db.Add(new Task(id, false, description, priority, dueDate));
-                    taskContext.SaveChanges();
                 }
             }
             void TaskDeleter()
@@ -160,16 +112,15 @@ namespace checkpoint3
                 {
                     Console.WriteLine("Unable to parse '{0}', please try again", userInput);
                 }
-                foreach (Task t in taskContext.tasks_db)
+                for (int i = 0; i < tasks.Count; i++)
                 {
-                    if (userInputInt == t.id)
+                    if (userInputInt == tasks[i].id)
                     {
-                        taskContext.tasks_db.Remove(t);
-                        taskContext.SaveChanges();
+                        tasks.Remove(tasks[i]);
                     }
                 }
             }
-            void TaskModifier_db()
+            void TaskModifier()
             {
                 System.Console.WriteLine("Which task do you want to modify? Choose a task number");
                 TaskLister();
@@ -183,7 +134,7 @@ namespace checkpoint3
                 {
                     Console.WriteLine("Unable to parse '{0}', please try again", userInput);
                 }
-                foreach (Task t in taskContext.tasks_db)
+                foreach (Task t in tasks)
                 {
                     if (userInputInt == t.id)
                     {
@@ -221,50 +172,62 @@ namespace checkpoint3
                             ParseDateTimeUpdate();
                         }
                     }
-                    taskContext.SaveChanges();
                 }
             }
-            void TaskStatusUpdater()
-            {
-                System.Console.WriteLine("Which task do you want to update the status on? Choose a task number");
-                TaskLister();
-                string userInput = Console.ReadLine();
-                int userInputInt = 0;
-                try
-                {
-                    userInputInt = int.Parse(userInput);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Unable to parse '{0}', please try again", userInput);
-                }
-                foreach (Task t in taskContext.tasks_db)
-                {
-                    if (userInputInt == t.id)
-                    {
-                        if (t.isComplete)
-                        {
-                            System.Console.WriteLine("Do you want to mark this task as INCOMPLETE? y/n");
-                            userInput = Console.ReadLine();
-                            if (userInput.ToLower() == "y")
-                            {
-                                t.isComplete = false;
-                            }
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Do you want to mark this task as COMPLETE? y/n");
-                            userInput = Console.ReadLine();
-                            if (userInput.ToLower() == "y")
-                            {
-                                t.isComplete = true;
-                            }
-                        }
-                    }
-                }
-                System.Console.WriteLine("Task updated!");
-                taskContext.SaveChanges();
-            }
+            // void TaskModifier_db()
+            // {
+            //     System.Console.WriteLine("Which task do you want to modify? Choose a task number");
+            //     TaskLister();
+            //     string userInput = Console.ReadLine();
+            //     int userInputInt = 0;
+            //     try
+            //     {
+            //         userInputInt = int.Parse(userInput);
+            //     }
+            //     catch (FormatException)
+            //     {
+            //         Console.WriteLine("Unable to parse '{0}', please try again", userInput);
+            //     }
+            //     foreach (Task t in taskContext.tasks_db)
+            //     {
+            //         if (userInputInt == t.id)
+            //         {
+            //             System.Console.WriteLine("Do you want to modify 1. the description, 2. the priority, or 3. due date?");
+            //             string response = Console.ReadLine();
+            //             if (response == "1")
+            //             {
+            //                 System.Console.WriteLine("Please enter a new description:");
+            //                 t.description = Console.ReadLine();
+            //             }
+            //             else if (response == "2")
+            //             {
+            //                 System.Console.WriteLine("Please enter a new priority:");
+            //                 t.priority = Console.ReadLine();
+            //             }
+            //             else if (response == "3")
+            //             {
+            //                 ParseDateTimeUpdate();
+            //             }
+            //             t.id = userInputInt;
+            //             System.Console.WriteLine("id for this task is " + t.id);
+            //         }
+            //         void ParseDateTimeUpdate()
+            //         {
+            //             System.Console.WriteLine("Please enter a new due date. Enter using the format \"Month Day, Year\" (example: January 1, 1979) :");
+            //             string dueDateInput = Console.ReadLine();
+            //             try
+            //             {
+            //                 t.dueDate = DateTime.Parse(dueDateInput);
+            //                 Console.WriteLine("Due date changed to " + t.dueDate.ToString("MM/dd/yyyy"));
+            //             }
+            //             catch (FormatException)
+            //             {
+            //                 Console.WriteLine("Unable to parse '{0}', please try again", dueDateInput);
+            //                 ParseDateTimeUpdate();
+            //             }
+            //         }
+            //     }
+            // }
         }
     }
     public class Task
@@ -283,11 +246,14 @@ namespace checkpoint3
             this.priority = priority;
             this.dueDate = dueDate;
         }
-        public Task() { }
+
+        public Task(){}
     }
-    public class TaskContext : DbContext
+
+    public class TaskContext:DbContext 
     {
-        public DbSet<Task> tasks_db { get; set; }
+        public DbSet<Task> tasks_db {get;set;}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=./tasks.db");
